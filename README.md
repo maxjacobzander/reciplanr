@@ -15,9 +15,7 @@ v1 of this app is going to be the simplest version of this, acting as a proof-of
 The functionality on the backend is probably to:
 
 1. Use a Hash or JS Object to track ingredients and amounts
-
-- This hash or object will functionally become our shopping list
-
+   - This hash or object will functionally become our shopping list
 2. Convert unit of measurement for standardization
 3. Utilize find or create logic to check for existence of ingredient
 4. Add ingredient if necessary and amount OR add amount to existing ingredient in the shopping list
