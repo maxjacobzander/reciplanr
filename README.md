@@ -20,6 +20,13 @@ The functionality on the backend is probably to:
 3. Utilize find or create logic to check for existence of ingredient
 4. Add ingredient if necessary and amount OR add amount to existing ingredient in the shopping list
 
+The functionality on the front end is probably:
+
+1. Two inputs: one for links and one for text recipes
+2. onSubmit kick off the backend logic
+3. Display out the list as it stands
+4. Button to generate PDF when complete
+
 ## Potential challenges:
 
 - Standardizing ingredient lists from various sources
