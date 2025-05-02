@@ -39,7 +39,7 @@ function standardizeMeasurement(amount, fromUnit) {
 // find or create ingredient (string)
 // add amount to the value in the Object
 
-function addIngredient(name, amount, unit) {
+function addIngredient(amount, unit, name) {
   name = standardizeIngredientName(name);
   const { amount: convertedAmount, unit: standardUnit } =
     standardizeMeasurement(amount, unit);
