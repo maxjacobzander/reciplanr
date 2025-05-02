@@ -36,3 +36,4 @@ The functionality on the front end is probably:
 
 - Separate lists by grocery store departments
 - Toggle for metric/imperial?
+- For v2, add function to convert ingredient lines to more structured format
