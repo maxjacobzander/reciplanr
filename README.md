@@ -35,3 +35,4 @@ The functionality on the front end is probably:
 ## Future Ideas
 
 - Separate lists by grocery store departments
+- Toggle for metric/imperial?
