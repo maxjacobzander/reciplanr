@@ -20,6 +20,22 @@ function standardizeIngredientName(name) {
 
 // standardize measurements for the amount
 
+function standardizeMeasurement(amount, fromUnit) {
+  const normalizedUnit = fromUnit.toLowerCase().trim();
+
+  if (UNIT_CONVERSIONS[normalizedUnit]) {
+    const toUnit = Object.keys(UNIT_CONVERSIONS[normalizedUnit])[0];
+    const factor = UNIT_CONVERSIONS[normalizedUnit][toUnit];
+    return {
+      amount: amount * factor,
+      unit: toUnit,
+    };
+  }
+
+  // if unit is not recognized, just return it as is
+  return { amount, unit: normalizedUnit };
+}
+
 // find or create ingredient (string)
 // add amount to the value in the Object
 
@@ -40,3 +56,8 @@ function addIngredient(name, amount, unit) {
 }
 
 // when done, return the shopping list Object
+function getShoppingListArray() {
+  return Object.values(shoppingList);
+}
+
+export { addIngredient, getShoppingListArray };
