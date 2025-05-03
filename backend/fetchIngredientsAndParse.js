@@ -21,4 +21,5 @@ export async function fetchIngredientsAndParse(standardizedUrl) {
     el.textContent.trim()
   );
   console.log(ingredientsList);
+  return ingredientsList;
 }
