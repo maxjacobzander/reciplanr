@@ -1,6 +1,7 @@
 import { JSDOM } from "jsdom";
+import { addIngredient } from "./shoppingList";
 
-export async function fetchIngredientsAndParse(standardizedUrl) {
+async function fetchIngredientsAndParse(standardizedUrl) {
   const response = await fetch(standardizedUrl);
   // grab the text from the page
   const html = await response.text();
@@ -21,5 +22,30 @@ export async function fetchIngredientsAndParse(standardizedUrl) {
     el.textContent.trim()
   );
   console.log(ingredientsList);
-  return ingredientsList;
+  parseAndAddIngredients(ingredientsList);
 }
+
+function parseAndAddIngredients(ingredientsList) {
+  ingredientsList.forEach((line) => {
+    const match = line.match(
+      /^(\d+\/\d+|\d+\s\d+\/\d+|\d+|\d*\.\d+|[¼½¾⅓⅔⅛⅜⅝⅞])?\s*([a-zA-Z]+\.?)?\s*(.*)$/
+    );
+
+    if (match) {
+      let [, amount, unit, name] = match;
+
+      unit = unit?.replace(/\.$/, "");
+
+      amount = amount?.trim() || null;
+      unit = unit?.trim() || null;
+      name = name?.trim();
+      addIngredient(amount, unit, name);
+      return;
+    } else {
+      // if nothing matches, fallback to the whole line as name
+      addIngredient(null, null, line);
+    }
+  });
+}
+
+export { fetchIngredientsAndParse, parseIngredients };
