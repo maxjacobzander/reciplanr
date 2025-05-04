@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom";
-import { addIngredient } from "./shoppingList";
+import { addIngredient } from "./shoppingList.js";
 
 async function fetchIngredientsAndParse(standardizedUrl) {
   const response = await fetch(standardizedUrl);
@@ -48,4 +48,4 @@ function parseAndAddIngredients(ingredientsList) {
   });
 }
 
-export { fetchIngredientsAndParse, parseIngredients };
+export { fetchIngredientsAndParse, parseAndAddIngredients };
