@@ -6,7 +6,8 @@ function ShoppingList({ shoppingList }) {
         {shoppingList.map((item, index) => (
           <li key={index}>
             <input type="checkbox" />
-            {item}
+            {/* React can't render objects as children, so I need render indiviudal fields here */}
+            {item.quantity} {item.unit} {item.name}
           </li>
         ))}
       </ul>
