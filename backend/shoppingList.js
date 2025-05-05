@@ -8,6 +8,7 @@ const shoppingList = {};
 // standardize ingredient name (ie egg vs eggs)
 function standardizeIngredientName(name) {
   name = name.toLowerCase().trim();
+  console.log("Before standardization:", name);
 
   if (name.endsWith("es") && name.length > 3) {
     name = name.slice(0, -2);
@@ -15,6 +16,7 @@ function standardizeIngredientName(name) {
     name = name.slice(0, -1);
   }
 
+  console.log("After standardization:", name);
   return name;
 }
 
@@ -22,6 +24,7 @@ function standardizeIngredientName(name) {
 
 function standardizeMeasurement(amount, fromUnit) {
   const normalizedUnit = fromUnit.toLowerCase().trim();
+  console.log("Before conversion:", amount, fromUnit);
 
   if (UNIT_CONVERSIONS[normalizedUnit]) {
     const toUnit = Object.keys(UNIT_CONVERSIONS[normalizedUnit])[0];
