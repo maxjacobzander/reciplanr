@@ -48,11 +48,11 @@ function addIngredient(amount, unit, name) {
     standardizeMeasurement(amount, unit);
 
   if (shoppingList[name]) {
-    shoppingList[name].quantity += convertedAmount;
+    shoppingList[name].quantity += Number(convertedAmount);
   } else {
     shoppingList[name] = {
       name,
-      quantity: convertedAmount,
+      quantity: Number(convertedAmount),
       unit: standardUnit,
     };
   }
