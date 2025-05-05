@@ -8,22 +8,28 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
   const handleSubmit = async (e) => {
     // preventDefault() to prevent reload on SPA
     e.preventDefault();
+    console.log("form submitted");
     const url = type === "link" ? "/ingredients-from-link" : "/ingredients";
-
+    const payload =
+      type === "link" ? { url: inputValue } : { text: inputValue };
+    // console.log(url);
     try {
+      console.log("Sending data:", payload);
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ input: inputValue }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
+        console.log(response);
         throw new Error(`HTTP error with status: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log("Response data:", data);
       setShoppingList(data.shoppingList);
       setInputValue("");
       setErrorMessage("");
