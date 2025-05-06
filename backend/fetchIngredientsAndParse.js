@@ -1,5 +1,6 @@
 import { JSDOM } from "jsdom";
 import { addIngredient } from "./shoppingList.js";
+import { IGNORE_WORDS } from "./ignoreWords.js";
 
 async function fetchIngredientsAndParse(standardizedUrl) {
   const response = await fetch(standardizedUrl);
@@ -25,6 +26,14 @@ async function fetchIngredientsAndParse(standardizedUrl) {
   parseAndAddIngredients(ingredientsList);
 }
 
+function cleanIngredientName(name) {
+  return name
+    .split(/\s+/)
+    .filter((word) => !IGNORE_WORDS.includes(word.toLowerCase()))
+    .join(" ")
+    .trim();
+}
+
 function parseAndAddIngredients(ingredientsList) {
   ingredientsList.forEach((line) => {
     const match = line.match(
@@ -37,13 +46,13 @@ function parseAndAddIngredients(ingredientsList) {
       unit = unit?.replace(/\.$/, "");
 
       amount = amount?.trim() || null;
-      unit = unit?.trim() || null;
-      name = name?.trim();
+      unit = unit?.trim() || "";
+      name = cleanIngredientName(name?.trim() || "");
       addIngredient(amount, unit, name);
       return;
     } else {
       // if nothing matches, fallback to the whole line as name
-      addIngredient(null, null, line);
+      addIngredient(null, null, cleanIngredientName(line));
     }
   });
 }
