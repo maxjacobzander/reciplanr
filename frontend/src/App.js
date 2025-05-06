@@ -25,6 +25,8 @@ function App() {
         setShoppingList={setShoppingList}
       />
 
+      <br />
+
       <InputIngredients
         type="text"
         label="Input Ingredients Manually"
