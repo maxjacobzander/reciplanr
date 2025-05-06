@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { addIngredient, getShoppingListArray } from "./shoppingList.js";
+import {
+  addIngredient,
+  addSingularIngredient,
+  getShoppingListArray,
+} from "./shoppingList.js";
 import {
   fetchIngredientsAndParse,
   parseAndAddIngredients,
@@ -46,7 +50,9 @@ app.post("/ingredients", (request, response) => {
 
     ingredients.forEach((line) => {
       const parts = line.split(/\s+/);
-      if (parts.length < 2) return;
+      if (parts.length < 2) {
+        addSingularIngredient(parts);
+      }
 
       const amount = parseFloat(parts[0]);
       if (isNaN(amount)) return;
