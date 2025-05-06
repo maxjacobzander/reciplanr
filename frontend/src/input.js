@@ -42,6 +42,7 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor={`input-${type}`}>{label}</label>
+      <br />
       <input
         id={`input-${type}`}
         type={type === "link" ? "url" : "text"}
@@ -50,6 +51,7 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
         required
         placeholder={placeholder}
       />
+      <br />
       <button type="submit">Submit</button>
       {errorMessage && <div className="error">{errorMessage}</div>}
     </form>
