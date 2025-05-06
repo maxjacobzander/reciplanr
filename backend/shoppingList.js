@@ -58,9 +58,18 @@ function addIngredient(amount, unit, name) {
   }
 }
 
+function addSingularIngredient(name) {
+  if (!shoppingList[name]) {
+    console.log("Not present yet:", name);
+    shoppingList[name] = {
+      name,
+    };
+  }
+}
+
 // when done, return the shopping list Object
 function getShoppingListArray() {
   return Object.values(shoppingList);
 }
 
-export { addIngredient, getShoppingListArray };
+export { addIngredient, addSingularIngredient, getShoppingListArray };
