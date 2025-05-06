@@ -23,7 +23,7 @@ function standardizeIngredientName(name) {
 // standardize measurements for the amount
 
 function standardizeMeasurement(amount, fromUnit) {
-  const normalizedUnit = fromUnit.toLowerCase().trim();
+  const normalizedUnit = fromUnit?.toLowerCase().trim();
   console.log("Before conversion:", amount, fromUnit);
 
   if (UNIT_CONVERSIONS[normalizedUnit]) {
