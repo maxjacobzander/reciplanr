@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { getShoppingListArray } from "./shoppingList.js";
+import { addIngredient, getShoppingListArray } from "./shoppingList.js";
 import {
   fetchIngredientsAndParse,
   parseAndAddIngredients,
@@ -44,7 +44,28 @@ app.post("/ingredients", (request, response) => {
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
 
-    parseAndAddIngredients(ingredients);
+    ingredients.forEach((line) => {
+      const parts = line.split(/\s+/);
+      if (parts.length < 2) return;
+
+      const amount = parseFloat(parts[0]);
+      if (isNaN(amount)) return;
+
+      let unit = "";
+      let name = "";
+
+      if (parts.length === 2) {
+        // "4 potatoes"
+        name = parts[1];
+      } else {
+        // "2 cups sugar"
+        unit = parts[1];
+        name = parts.slice(2).join(" ");
+      }
+
+      addIngredient(amount, unit, name);
+    });
+
     response.json({ shoppingList: getShoppingListArray() });
   } catch (error) {
     console.error("Error parsing recipe:", error);
