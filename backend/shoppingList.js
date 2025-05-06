@@ -59,11 +59,16 @@ function addIngredient(amount, unit, name) {
 }
 
 function addSingularIngredient(name) {
+  name = name.toLowerCase().trim();
   if (!shoppingList[name]) {
     console.log("Not present yet:", name);
     shoppingList[name] = {
       name,
+      quantity: "",
+      unit: "",
     };
+  } else {
+    console.log(name, "already present");
   }
 }
 
