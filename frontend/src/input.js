@@ -43,14 +43,27 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
     <form onSubmit={handleSubmit}>
       <label htmlFor={`input-${type}`}>{label}</label>
       <br />
-      <input
-        id={`input-${type}`}
-        type={type === "link" ? "url" : "text"}
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        required
-        placeholder={placeholder}
-      />
+      {type === "link" ? (
+        <input
+          id={`input-${type}`}
+          type="url"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          required
+          placeholder={placeholder}
+          style={{ width: "30%" }}
+        />
+      ) : (
+        <textarea
+          id={`input-${type}`}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          required
+          placeholder={placeholder}
+          rows={6}
+          style={{ width: "30%" }}
+        />
+      )}
       <br />
       <button type="submit">Submit</button>
       {errorMessage && <div className="error">{errorMessage}</div>}
