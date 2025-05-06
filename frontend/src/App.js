@@ -29,7 +29,7 @@ function App() {
 
       <InputIngredients
         type="text"
-        label="Input Ingredients Manually"
+        label="Input Ingredients Manually With Each Ingredient On A New Line"
         placeholder={"Enter your ingredients here directly"}
         setShoppingList={setShoppingList}
       />
