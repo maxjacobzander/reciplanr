@@ -40,9 +40,10 @@ app.post("/ingredients", (request, response) => {
   try {
     const text_input = request.body.text;
 
-    const adapted = text_input.includes("\n")
-      ? text_input.split("\n")
-      : text_input.split(",");
+    const adapted = text_input
+      .split(/[\n,]+/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
 
     const ingredients = adapted
       .map((line) => line.trim())
@@ -51,7 +52,8 @@ app.post("/ingredients", (request, response) => {
     ingredients.forEach((line) => {
       const parts = line.split(/\s+/);
       if (parts.length < 2) {
-        addSingularIngredient(parts);
+        // this won't do much because of the < 2
+        addSingularIngredient(parts.join(" "));
       }
 
       const amount = parseFloat(parts[0]);
