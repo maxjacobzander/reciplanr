@@ -5,8 +5,8 @@ label {
   /* background-color: #b4dceb; */
   background-color: #fefae0;
   text-wrap: auto;
-  /* display: flex;
-  align-items: stretch; */
+  display: flex;
+  /* align-items: stretch; */
 }
 
 img {
@@ -31,7 +31,7 @@ textarea,
 input {
   font-family: "Raleway", sans-serif;
   padding: 1%;
-  width: auto;
+  width: 75%;
   margin-top: 0.5%;
 }
 
