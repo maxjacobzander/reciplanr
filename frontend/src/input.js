@@ -52,7 +52,6 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
           onChange={(e) => setInputValue(e.target.value)}
           required
           placeholder={placeholder}
-          style={{ width: "35%" }}
         />
       ) : (
         <textarea
@@ -63,7 +62,6 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
           required
           placeholder={placeholder}
           rows={6}
-          style={{ width: "35%" }}
         />
       )}
       <br />
