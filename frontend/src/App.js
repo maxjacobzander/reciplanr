@@ -16,7 +16,9 @@ function App() {
 
   return (
     <div className="App">
-      <img src={logo} alt="ReciPlanr" />
+      <div className="logo">
+        <img src={logo} alt="ReciPlanr" />
+      </div>
       {/* <h1>ReciPlanr</h1> */}
       <div className="reciPlanr">
         <div className="inputs">
@@ -41,13 +43,15 @@ function App() {
 
         <br />
 
-        {shoppingList.length > 0 ? (
-          <div className="fade-in">
-            <ShoppingList shoppingList={shoppingList} />
-          </div>
-        ) : (
-          <p></p>
-        )}
+        <div className="shoppingList">
+          {shoppingList.length > 0 ? (
+            <div className="fade-in">
+              <ShoppingList shoppingList={shoppingList} />
+            </div>
+          ) : (
+            <div style={{ backgroundColor: "fefae0" }}></div>
+          )}
+        </div>
       </div>
     </div>
   );

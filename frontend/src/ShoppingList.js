@@ -1,7 +1,7 @@
 function ShoppingList({ shoppingList }) {
   if (shoppingList.length) {
     return (
-      <div className="shoppingList">
+      <div className="shoppingList" style={{ backgroundColor: "white" }}>
         <h2 style={{ textAlign: "center" }}>Your Shopping List</h2>
         <ul style={{ listStyleType: "none" }}>
           {shoppingList.map((item, index) => (

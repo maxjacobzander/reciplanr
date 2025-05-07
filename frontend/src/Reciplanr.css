@@ -1,12 +1,17 @@
 html,
 body,
-#root,
-label {
-  /* background-color: #b4dceb; */
+#root {
   background-color: #fefae0;
-  text-wrap: auto;
-  display: flex;
-  /* align-items: stretch; */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 img {
@@ -22,14 +27,20 @@ img {
   padding-left: 5%;
   height: 100%;
   font-family: "Raleway", sans-serif;
-  /* font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal; */
+}
+
+.logo {
+  align-items: center;
+  justify-content: center;
+}
+
+.inputs,
+.shoppingList {
+  flex: 1;
+  max-width: 50%;
 }
 
 .reciPlanr {
-  /* flex: 1;
-  max-width: 50%; */
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -67,13 +78,9 @@ button[type="submit"] {
 .shoppingList {
   margin-top: 2%;
   padding: 2%;
-  background-color: white;
   line-height: 2.2;
-  width: 75%;
-  align-content: center;
   flex: 1;
-  max-width: 50%;
-  /* flex-direction: flex-end; */
+  max-width: 100%;
 }
 
 /* Fade in effect for shoppingList */
@@ -90,4 +97,15 @@ button[type="submit"] {
 
 .fade-in {
   animation: fadeIn 0.6s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .reciPlanr {
+    flex-direction: column;
+  }
+
+  .inputs,
+  .shoppingList {
+    max-width: 100%;
+  }
 }
