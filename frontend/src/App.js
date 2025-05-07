@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import InputIngredients from "./Input.js";
 import ShoppingList from "./ShoppingList.js";
+import "./Reciplanr.css";
 
 function App() {
   const [shoppingList, setShoppingList] = useState([]);
