@@ -1,0 +1,42 @@
+html,
+body,
+#root {
+  /* background-color: #b4dceb; */
+  background-color: #fefae0;
+}
+
+.App {
+  justify-content: center;
+  padding-top: 5%;
+  padding-left: 5%;
+  height: 100%;
+  font-family: "Raleway", sans-serif;
+  /* font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal; */
+}
+
+textarea,
+input {
+  font-family: "Raleway", sans-serif;
+  padding: 1%;
+  width: auto;
+  margin-top: 0.5%;
+}
+
+button[type="submit"] {
+  margin-top: 1%;
+  padding: 5px 15px;
+  background: #dda15e;
+  color: #283618;
+  border: 0 none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.inputField {
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
