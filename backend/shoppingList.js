@@ -1,80 +1,101 @@
-import { UNIT_CONVERSIONS } from "./unitConversions.js";
+import {
+  UNIT_HIERARCHY,
+  normalizeUnit,
+  convertToCanonicalUnit,
+} from "./unitConversions.js";
+import { IGNORE_WORDS } from "./ignoreWords.js";
 
 // TO DO:
 
 // create an Object to store the shopping list --> key:value being ingredient:amount
+
 const shoppingList = {};
 
-// standardize ingredient name (ie egg vs eggs)
+// standardize ingredient name / take out filler words
 function standardizeIngredientName(name) {
   name = name.toLowerCase().trim();
   console.log("Before standardization:", name);
 
-  if (name.endsWith("es") && name.length > 3) {
-    name = name.slice(0, -2);
-  } else if (name.endsWith("s") && name.length > 2) {
-    name = name.slice(0, -1);
-  }
+  name = name.replace(/\(.*?\)/g, "").replace(/,/g, "");
 
-  console.log("After standardization:", name);
-  return name;
-}
+  const words = name.split(/\s+/);
+  const filteredWords = words.filter(
+    (word) => !IGNORE_WORDS.includes(word.toLowerCase())
+  );
 
-// standardize measurements for the amount
+  const singularWords = filteredWords.map((word) => {
+    if (word.endsWith("es") && word.length > 3) return word.slice(0, -2);
+    if (word.endsWith("s") && word.length > 2) return word.slice(0, -1);
+    return word;
+  });
 
-function standardizeMeasurement(amount, fromUnit) {
-  const normalizedUnit = fromUnit?.toLowerCase().trim();
-  console.log("Before conversion:", amount, fromUnit);
-
-  if (UNIT_CONVERSIONS[normalizedUnit]) {
-    const toUnit = Object.keys(UNIT_CONVERSIONS[normalizedUnit])[0];
-    const factor = UNIT_CONVERSIONS[normalizedUnit][toUnit];
-    return {
-      amount: amount * factor,
-      unit: toUnit,
-    };
-  }
-
-  // if unit is not recognized, just return it as is
-  return { amount, unit: normalizedUnit };
+  return singularWords.join(" ").trim();
 }
 
 // find or create ingredient (string)
 // add amount to the value in the Object
 
 function addIngredient(amount, unit, name) {
-  name = standardizeIngredientName(name);
-  const { amount: convertedAmount, unit: standardUnit } =
-    standardizeMeasurement(amount, unit);
+  if (!name) return;
 
-  if (shoppingList[name]) {
-    shoppingList[name].quantity += Number(convertedAmount);
-  } else {
+  name = standardizeIngredientName(name);
+  const normalizedUnit = normalizeUnit(unit);
+  const { amount: convertedAmount, unit: finalUnit } = convertToCanonicalUnit(
+    amount,
+    normalizedUnit
+  );
+
+  if (!shoppingList[name]) {
     shoppingList[name] = {
       name,
-      quantity: Number(convertedAmount),
-      unit: standardUnit,
+      quantities: [],
     };
   }
+
+  // Check if same unit already exists for this name
+  const existing = shoppingList[name].quantities.find(
+    (entry) => entry.unit === finalUnit
+  );
+  if (existing) {
+    existing.amount += Number(convertedAmount);
+  } else {
+    shoppingList[name].quantities.push({
+      amount: Number(convertedAmount),
+      unit: finalUnit,
+    });
+  }
+
+  // Sort by unit hierarchy to show larger units first
+  shoppingList[name].quantities.sort((a, b) => {
+    const aRank = UNIT_HIERARCHY[a.unit] || 0;
+    const bRank = UNIT_HIERARCHY[b.unit] || 0;
+    return bRank - aRank;
+  });
 }
 
 function addSingularIngredient(name) {
-  name = name.toLowerCase().trim();
-  if (!shoppingList[name]) {
-    console.log("Not present yet:", name);
-    shoppingList[name] = {
-      name,
-      quantity: "",
-      unit: "",
+  const standardizedName = standardizeIngredientName(name);
+  if (!shoppingList[standardizedName]) {
+    shoppingList[standardizedName] = {
+      name: standardizedName,
+      quantities: [],
     };
-  } else {
-    console.log(name, "already present");
   }
 }
 
 // when done, return the shopping list Object
 function getShoppingListArray() {
-  return Object.values(shoppingList);
+  return Object.values(shoppingList).map((entry) => {
+    const quantitiesString = entry.quantities
+      .map((q) => `${q.amount} ${q.unit}`.trim())
+      .join(" + ");
+
+    return {
+      name: entry.name,
+      quantity: quantitiesString || "",
+      unit: "", // moved into quantity string
+    };
+  });
 }
 
 export { addIngredient, addSingularIngredient, getShoppingListArray };
