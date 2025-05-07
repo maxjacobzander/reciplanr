@@ -16,9 +16,11 @@ label {
 
 img {
   display: block;
-  margin: auto;
+  margin: 0 auto; /* center image */
   padding-bottom: 2%;
-  height: 15rem;
+  width: 40vw;
+  max-width: 100%;
+  height: auto;
 }
 
 .App {
