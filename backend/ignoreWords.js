@@ -16,4 +16,5 @@ export const IGNORE_WORDS = [
   "melted",
   "rinsed",
   "of",
+  "fresh",
 ];
