@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import InputIngredients from "./Input.js";
 import ShoppingList from "./ShoppingList.js";
 import "./Reciplanr.css";
+import logo from "./img/logo_v1_narrow-removebg.png";
 
 function App() {
   const [shoppingList, setShoppingList] = useState([]);
@@ -15,7 +16,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>ReciPlanr</h1>
+      <img src={logo} alt="ReciPlanr" />
+      {/* <h1>ReciPlanr</h1> */}
 
       <InputIngredients
         type="link"

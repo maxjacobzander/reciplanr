@@ -5,6 +5,15 @@ label {
   /* background-color: #b4dceb; */
   background-color: #fefae0;
   text-wrap: auto;
+  /* display: flex;
+  align-items: stretch; */
+}
+
+img {
+  display: block;
+  margin: auto;
+  padding-bottom: 2%;
+  height: 15rem;
 }
 
 .App {
@@ -44,9 +53,11 @@ button[type="submit"] {
 }
 
 .shoppingList {
+  margin-top: 2%;
   padding: 2%;
   background-color: white;
   line-height: 2.2;
   width: 75%;
   align-content: center;
+  /* flex-direction: flex-end; */
 }
