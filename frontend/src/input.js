@@ -46,22 +46,24 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
       {type === "link" ? (
         <input
           id={`input-${type}`}
+          className="inputField"
           type="url"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           required
           placeholder={placeholder}
-          style={{ width: "30%" }}
+          style={{ width: "35%" }}
         />
       ) : (
         <textarea
           id={`input-${type}`}
+          className="inputField"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           required
           placeholder={placeholder}
           rows={6}
-          style={{ width: "30%" }}
+          style={{ width: "35%" }}
         />
       )}
       <br />
