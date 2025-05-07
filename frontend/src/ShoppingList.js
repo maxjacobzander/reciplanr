@@ -3,13 +3,13 @@ function ShoppingList({ shoppingList }) {
     return (
       <div>
         <h2>Your Shopping List</h2>
-        <ul>
+        <ul style={{ listStyleType: "none" }}>
           {shoppingList.map((item, index) => (
-            <ui key={index}>
+            <li key={index}>
               <input type="checkbox" />
               {/* React can't render objects as children, so I need render indiviudal fields here */}
               {item.quantity} {item.unit} {item.name}
-            </ui>
+            </li>
           ))}
         </ul>
       </div>
