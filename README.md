@@ -40,3 +40,4 @@ The functionality on the front end is probably:
 - Toggle for metric/imperial?
 - For v2, add function to convert ingredient lines to more structured format
 - Add functionality to remove ingredients from shopping list
+- Add functionality to clear shopping list

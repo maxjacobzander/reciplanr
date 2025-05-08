@@ -22,7 +22,7 @@ function parseAndAddIngredients(ingredientsList) {
     console.log("Parsing line:", line);
 
     const match = line.match(
-      /^(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?|[¼½¾⅓⅔⅛⅜⅝⅞])?\s*(cups?|cup|tablespoons?|tbsp|teaspoons?|tsp|cloves?|pinch|dash|pounds?|lbs?|ounces?|oz|grams?|g|kilograms?|kg|liters?|l|ml)?\.?,?\s*(.+)$/i
+      /^(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?|[¼½¾⅓⅔⅛⅜⅝⅞])?\s*(cups?|cup|tablespoons?|tbsp|teaspoons?|tsp|cloves?|pinch|dash|pounds?|lbs?|ounces?|oz|grams?|g|kilograms?|kg|liters?|l|ml)?\.?,?\s*([^,]+)\s*,?\s*/i
     );
 
     if (match) {
