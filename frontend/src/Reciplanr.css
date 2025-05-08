@@ -97,7 +97,7 @@ button[type="submit"] {
 }
 
 .fade-in {
-  animation: fadeIn 0.6s ease-in-out;
+  animation: fadeIn 0.7s ease-in-out;
 }
 
 @media (max-width: 768px) {
