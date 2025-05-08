@@ -4,6 +4,8 @@
 
 ReciPlanr is an app that helps with a process I find to be very helpful: it takes in recipes (either from links or from straight text input) and outputs a pdf shopping list of everything you need for the week (or whatever timeframe you're planning for!).
 
+ReciPlanr is built with a React frontend and a Node.js backend with Express.
+
 ## What's the reci-plan?
 
 v1 of this app is going to be the simplest version of this, acting as a proof-of-concept. It will have three stages:
