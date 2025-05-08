@@ -1,44 +1,15 @@
-import { chromium } from "playwright";
-import * as cheerio from "cheerio";
+import pkg from "@rethora/url-recipe-scraper";
+const { default: getRecipeData } = pkg;
 
-/**
- * Scrapes visible ingredient text from a recipe URL using Playwright and Cheerio.
- * @param {string} url
- * @returns {Promise<{ ingredients: string[], title?: string }>}
- */
+// import pkg from "@rethora/url-recipe-scraper"; imports the module.
+
+// const { default: getRecipeData } = pkg; extracts the default export (the getter function) and assigns it to getRecipeData.
+
 export async function scrapeRecipe(url) {
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
-
-  try {
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
-    const html = await page.content();
-    const $ = cheerio.load(html);
-
-    // Broad fallback selector for ingredient items
-    const fallbackIngredients = [];
-    $(
-      '[class*="ingredient"], li.ingredient, .ingredients-item-name, .recipe-ingredients__list-item'
-    ).each((_, el) => {
-      const text = $(el).text().trim();
-      if (text && text.length < 200 && /\w/.test(text)) {
-        fallbackIngredients.push(text);
-      }
-    });
-
-    if (fallbackIngredients.length) {
-      console.log("line 30", fallbackIngredients);
-      return {
-        ingredients: fallbackIngredients,
-        title: $("title").text().trim(),
-      };
-    }
-
-    throw new Error("No ingredients found in fallback.");
-  } catch (err) {
-    console.error(`Scraping failed for ${url}:`, err.message);
-    return { ingredients: [], title: undefined };
-  } finally {
-    await browser.close();
-  }
+  const recipe = await getRecipeData(url);
+  console.log("in function", recipe.recipeIngredient);
+  return {
+    ingredients: recipe.recipeIngredient || [],
+    title: recipe.name || "Untitled Recipe",
+  };
 }
