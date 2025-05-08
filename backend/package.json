@@ -10,7 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@rethora/url-recipe-scraper": "^1.1.0",
+    "@rethora/url-recipe-scraper": "git+https://github.com/maxjacobzander/url-recipe-scraper.git#main",
     "cors": "^2.8.5",
     "express": "^5.1.0"
   },
