@@ -1,4 +1,3 @@
-import { JSDOM } from "jsdom";
 import { addIngredient } from "./shoppingList.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
 import { scrapeRecipe } from "./scraper.js";
@@ -7,6 +6,7 @@ async function fetchIngredientsAndParse(url) {
   const { ingredients } = await scrapeRecipe(url);
   console.log(ingredients);
   parseAndAddIngredients(ingredients);
+  console.log("I hit this");
 }
 
 function cleanIngredientName(name) {
@@ -19,23 +19,26 @@ function cleanIngredientName(name) {
 
 function parseAndAddIngredients(ingredientsList) {
   ingredientsList.forEach((line) => {
+    console.log("Parsing line:", line);
+
     const match = line.match(
-      /^(\d+\/\d+|\d+\s\d+\/\d+|\d+|\d*\.\d+|[¼½¾⅓⅔⅛⅜⅝⅞])?\s*([a-zA-Z]+\.?)?\s*(.*)$/
+      /^(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?|[¼½¾⅓⅔⅛⅜⅝⅞])?\s*(cups?|cup|tablespoons?|tbsp|teaspoons?|tsp|cloves?|pinch|dash|pounds?|lbs?|ounces?|oz|grams?|g|kilograms?|kg|liters?|l|ml)?\.?,?\s*(.+)$/i
     );
 
     if (match) {
       let [, amount, unit, name] = match;
 
-      unit = unit?.replace(/\.$/, "");
+      // Normalize text
+      amount = amount?.trim() || "";
+      unit = unit?.toLowerCase().replace(/\.$/, "").trim() || "";
+      name = cleanIngredientName(name);
 
-      amount = amount?.trim() || null;
-      unit = unit?.trim() || "";
-      name = cleanIngredientName(name?.trim() || "");
       addIngredient(amount, unit, name);
-      return;
     } else {
-      // if nothing matches, fallback to the whole line as name
-      addIngredient(null, null, cleanIngredientName(line));
+      // Fallback: treat entire line as ingredient name with no amount/unit
+      const nameOnly = cleanIngredientName(line);
+      console.warn("No match, fallback to name-only:", nameOnly);
+      addIngredient(null, null, nameOnly);
     }
   });
 }
