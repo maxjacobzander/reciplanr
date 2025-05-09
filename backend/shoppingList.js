@@ -4,6 +4,7 @@ import {
   convertToCanonicalUnit,
 } from "./unitConversions.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
+import { cleanIngredientName } from "./cleanIngredientName.js";
 
 // TO DO:
 
@@ -11,34 +12,13 @@ import { IGNORE_WORDS } from "./ignoreWords.js";
 
 const shoppingList = {};
 
-// standardize ingredient name / take out filler words
-function standardizeIngredientName(name) {
-  name = name.toLowerCase().trim();
-  console.log("Before standardization:", name);
-
-  name = name.replace(/\(.*?\)/g, "").replace(/,/g, "");
-
-  const words = name.split(/\s+/);
-  const filteredWords = words.filter(
-    (word) => !IGNORE_WORDS.includes(word.toLowerCase())
-  );
-
-  const singularWords = filteredWords.map((word) => {
-    if (word.endsWith("es") && word.length > 3) return word.slice(0, -2);
-    if (word.endsWith("s") && word.length > 2) return word.slice(0, -1);
-    return word;
-  });
-
-  return singularWords.join(" ").trim();
-}
-
 // find or create ingredient (string)
 // add amount to the value in the Object
 
 function addIngredient(amount, unit, name) {
   if (!name) return;
 
-  name = standardizeIngredientName(name);
+  name = cleanIngredientName(name);
   const normalizedUnit = normalizeUnit(unit);
   const { amount: convertedAmount, unit: finalUnit } = convertToCanonicalUnit(
     amount,
@@ -74,7 +54,7 @@ function addIngredient(amount, unit, name) {
 }
 
 function addSingularIngredient(name) {
-  const standardizedName = standardizeIngredientName(name);
+  const standardizedName = cleanIngredientName(name);
   if (!shoppingList[standardizedName]) {
     shoppingList[standardizedName] = {
       name: standardizedName,

@@ -1,5 +1,5 @@
 import { addIngredient } from "./shoppingList.js";
-import { IGNORE_WORDS } from "./ignoreWords.js";
+import { cleanIngredientName } from "./cleanIngredientName.js";
 import { scrapeRecipe } from "./scraper.js";
 
 async function fetchIngredientsAndParse(url) {
@@ -7,14 +7,6 @@ async function fetchIngredientsAndParse(url) {
   console.log(ingredients);
   parseAndAddIngredients(ingredients);
   console.log("I hit this");
-}
-
-function cleanIngredientName(name) {
-  return name
-    .split(/\s+/)
-    .filter((word) => !IGNORE_WORDS.includes(word.toLowerCase()))
-    .join(" ")
-    .trim();
 }
 
 function parseAndAddIngredients(ingredientsList) {
