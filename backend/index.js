@@ -1,15 +1,9 @@
 import express from "express";
 import cors from "cors";
-import {
-  addIngredient,
-  addSingularIngredient,
-  getShoppingListArray,
-} from "./shoppingList.js";
-import {
-  fetchIngredientsAndParse,
-  parseAndAddIngredients,
-} from "./fetchIngredientsAndParse.js";
+import { getShoppingListArray } from "./shoppingList.js";
+import { fetchIngredientsAndParse } from "./fetchIngredientsAndParse.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
+import { addToList } from "./addToList.js";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -37,10 +31,14 @@ app.post("/ingredients", (request, response) => {
   try {
     const text_input = request.body.text;
 
+    console.log("text_input", text_input);
+
     const adapted = text_input
       .split(/\n+/)
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
+
+    console.log("adapted", adapted);
 
     function cleanIngredientName(name) {
       const mainPart = name.split(",")[0].trim();
@@ -51,30 +49,7 @@ app.post("/ingredients", (request, response) => {
         .join(" ");
     }
 
-    adapted.forEach((line) => {
-      const parts = line.trim().split(/\s+/);
-
-      // try to parse a number from the first part
-      const amount = parseFloat(parts[0]);
-
-      if (!isNaN(amount)) {
-        let unit = "";
-        let name = "";
-
-        if (parts.length === 2) {
-          name = parts[1];
-        } else {
-          unit = parts[1];
-          name = cleanIngredientName(parts.slice(2).join(" "));
-        }
-
-        addIngredient(amount, unit, name);
-      } else {
-        // no number found —> treat the full line as ingredient name
-        const name = cleanIngredientName(line);
-        addSingularIngredient(name);
-      }
-    });
+    addToList(adapted);
 
     response.json({ shoppingList: getShoppingListArray() });
   } catch (error) {
