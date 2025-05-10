@@ -59,7 +59,8 @@ img {
   margin-bottom: 0.5%;
 }
 
-button[type="submit"] {
+/* button[type="submit"] { */
+button {
   margin-top: 1%;
   padding: 5px 15px;
   background: #dda15e;
@@ -68,6 +69,10 @@ button[type="submit"] {
   cursor: pointer;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+}
+
+button[type="download"] {
+  margin-top: 3%;
 }
 
 .inputField {
@@ -100,6 +105,10 @@ input[type="checkbox"] {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+div.error {
+  margin-top: 2%;
 }
 
 /* Fade in effect for shoppingList */
