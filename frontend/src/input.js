@@ -35,7 +35,9 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
       setErrorMessage("");
     } catch (error) {
       console.error("Error adding ingredients:", error);
-      setErrorMessage("Oops! Something went wrong. Please try again.");
+      setErrorMessage(
+        "Oops! Something went wrong. Please enter the ingredients manually or try a different website."
+      );
     }
   };
 
