@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { getShoppingListArray } from "./shoppingList.js";
+import { createShoppingList } from "./shoppingList.js";
 import { fetchIngredientsAndParse } from "./fetchIngredientsAndParse.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
@@ -17,8 +17,16 @@ app.post("/ingredients-from-link", async (request, response) => {
   console.log("hello", request.body);
   const url = request.body.url;
   if (!url) return response.status(400).json({ error: "No url provided" });
+
+  const shoppingList = createShoppingList();
+  const { addIngredient, addSingularIngredient, getShoppingListArray } =
+    shoppingList;
+
   try {
-    await fetchIngredientsAndParse(url);
+    await fetchIngredientsAndParse(url, {
+      addIngredient,
+      addSingularIngredient,
+    });
     response.json({ shoppingList: getShoppingListArray() });
   } catch (error) {
     console.error("Error parsing recipe:", error);
@@ -32,6 +40,10 @@ app.post("/ingredients", (request, response) => {
     const text_input = request.body.text;
 
     console.log("text_input", text_input);
+
+    const shoppingList = createShoppingList();
+    const { addIngredient, addSingularIngredient, getShoppingListArray } =
+      shoppingList;
 
     const adapted = text_input
       .split(/\n+/)
@@ -49,7 +61,7 @@ app.post("/ingredients", (request, response) => {
         .join(" ");
     }
 
-    addToList(adapted);
+    addToList(adapted, { addIngredient, addSingularIngredient });
 
     response.json({ shoppingList: getShoppingListArray() });
   } catch (error) {
@@ -62,8 +74,9 @@ app.post("/ingredients", (request, response) => {
 app.get("/shoppinglist", (request, response) => {
   // log out to test
   console.log(`you've reached the shopping list!`);
-  const list = getShoppingListArray();
-  response.json(list);
+  const list = createShoppingList();
+  const { getShoppingListArray } = shoppingList;
+  response.json(getShoppingListArray());
 });
 
 app.listen(port, () => {

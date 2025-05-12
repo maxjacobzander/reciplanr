@@ -10,72 +10,76 @@ import { cleanIngredientName } from "./cleanIngredientName.js";
 
 // create an Object to store the shopping list --> key:value being ingredient:amount
 
-const shoppingList = {};
+function createShoppingList() {
+  const shoppingList = {};
 
-// find or create ingredient (string)
-// add amount to the value in the Object
+  // add amount to the value in the Object
+  // find or create ingredient (string)
 
-function addIngredient(amount, unit, name) {
-  if (!name) return;
+  function addIngredient(amount, unit, name) {
+    if (!name) return;
 
-  name = cleanIngredientName(name);
-  const normalizedUnit = normalizeUnit(unit);
-  const { amount: convertedAmount, unit: finalUnit } = convertToCanonicalUnit(
-    amount,
-    normalizedUnit
-  );
+    name = cleanIngredientName(name);
+    const normalizedUnit = normalizeUnit(unit);
+    const { amount: convertedAmount, unit: finalUnit } = convertToCanonicalUnit(
+      amount,
+      normalizedUnit
+    );
 
-  if (!shoppingList[name]) {
-    shoppingList[name] = {
-      name,
-      quantities: [],
-    };
-  }
+    if (!shoppingList[name]) {
+      shoppingList[name] = {
+        name,
+        quantities: [],
+      };
+    }
 
-  // Check if same unit already exists for this name
-  const existing = shoppingList[name].quantities.find(
-    (entry) => entry.unit === finalUnit
-  );
-  if (existing) {
-    existing.amount += Number(convertedAmount);
-  } else {
-    shoppingList[name].quantities.push({
-      amount: Number(convertedAmount),
-      unit: finalUnit,
+    // Check if same unit already exists for this name
+    const existing = shoppingList[name].quantities.find(
+      (entry) => entry.unit === finalUnit
+    );
+    if (existing) {
+      existing.amount += Number(convertedAmount);
+    } else {
+      shoppingList[name].quantities.push({
+        amount: Number(convertedAmount),
+        unit: finalUnit,
+      });
+    }
+
+    // Sort by unit hierarchy to show larger units first
+    shoppingList[name].quantities.sort((a, b) => {
+      const aRank = UNIT_HIERARCHY[a.unit] || 0;
+      const bRank = UNIT_HIERARCHY[b.unit] || 0;
+      return bRank - aRank;
     });
   }
 
-  // Sort by unit hierarchy to show larger units first
-  shoppingList[name].quantities.sort((a, b) => {
-    const aRank = UNIT_HIERARCHY[a.unit] || 0;
-    const bRank = UNIT_HIERARCHY[b.unit] || 0;
-    return bRank - aRank;
-  });
-}
-
-function addSingularIngredient(name) {
-  const standardizedName = cleanIngredientName(name);
-  if (!shoppingList[standardizedName]) {
-    shoppingList[standardizedName] = {
-      name: standardizedName,
-      quantities: [],
-    };
+  function addSingularIngredient(name) {
+    const standardizedName = cleanIngredientName(name);
+    if (!shoppingList[standardizedName]) {
+      shoppingList[standardizedName] = {
+        name: standardizedName,
+        quantities: [],
+      };
+    }
   }
+
+  // when done, return the shopping list Object
+  function getShoppingListArray() {
+    return Object.values(shoppingList).map((entry) => {
+      const quantitiesString = entry.quantities
+        .map((q) => `${q.amount} ${q.unit}`.trim())
+        .join(" + ");
+
+      return {
+        name: entry.name,
+        quantity: quantitiesString || "",
+        unit: "", // moved into quantity string
+      };
+    });
+  }
+
+  return { addIngredient, addSingularIngredient, getShoppingListArray };
 }
 
-// when done, return the shopping list Object
-function getShoppingListArray() {
-  return Object.values(shoppingList).map((entry) => {
-    const quantitiesString = entry.quantities
-      .map((q) => `${q.amount} ${q.unit}`.trim())
-      .join(" + ");
-
-    return {
-      name: entry.name,
-      quantity: quantitiesString || "",
-      unit: "", // moved into quantity string
-    };
-  });
-}
-
-export { addIngredient, addSingularIngredient, getShoppingListArray };
+export { createShoppingList };

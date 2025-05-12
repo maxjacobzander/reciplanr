@@ -1,7 +1,7 @@
-import { addIngredient, addSingularIngredient } from "./shoppingList.js";
+// import { addIngredient, addSingularIngredient } from "./shoppingList.js";
 import { cleanIngredientName } from "./cleanIngredientName.js";
 
-export function addToList(array) {
+export function addToList(array, { addIngredient, addSingularIngredient }) {
   array.forEach((line) => {
     const parts = line.trim().split(/\s+/);
 
