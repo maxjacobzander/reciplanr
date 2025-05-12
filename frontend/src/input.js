@@ -9,7 +9,10 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
     // preventDefault() to prevent reload on SPA
     e.preventDefault();
     console.log("form submitted");
-    const url = type === "link" ? "/ingredients-from-link" : "/ingredients";
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+    const url = `${backendUrl}${
+      type === "link" ? "/ingredients-from-link" : "/ingredients"
+    }`;
     const payload =
       type === "link" ? { url: inputValue } : { text: inputValue };
     // console.log(url);
