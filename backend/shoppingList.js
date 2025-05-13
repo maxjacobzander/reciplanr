@@ -26,6 +26,8 @@ function createShoppingList(existingList = {}) {
       normalizedUnit
     );
 
+    console.log("ADDING INGREDIENT:", { amount, unit, name });
+
     if (!shoppingList[name]) {
       shoppingList[name] = {
         name,

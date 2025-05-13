@@ -79,6 +79,9 @@ app.post("/ingredients-from-link", async (request, response) => {
 
     request.session.shoppingList = rawData();
 
+    const result = getShoppingListArray();
+    console.log("Final shopping list to return:", result);
+
     response.json({
       shoppingList: getShoppingListArray(),
     });
@@ -122,6 +125,8 @@ app.post("/ingredients", (request, response) => {
     addToList(adapted, { addIngredient, addSingularIngredient });
 
     request.session.shoppingList = rawData();
+
+    console.log("Final shopping list to return:", getShoppingListArray());
 
     response.json({ shoppingList: getShoppingListArray() });
   } catch (error) {

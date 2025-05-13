@@ -2,6 +2,7 @@
 import { cleanIngredientName } from "./cleanIngredientName.js";
 
 export function addToList(array, { addIngredient, addSingularIngredient }) {
+  console.log("Raw ingredient list:", array);
   array.forEach((line) => {
     const parts = line.trim().split(/\s+/);
 
