@@ -7,7 +7,7 @@ import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
 import Redis from "ioredis";
-import RedisStore from "connect-redis";
+import { RedisStore } from "connect-redis";
 
 dotenv.config();
 
