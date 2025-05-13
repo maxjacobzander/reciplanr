@@ -7,15 +7,20 @@ import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
 import Redis from "ioredis";
-import * as connectRedis from "connect-redis";
+import RedisStore from "connect-redis";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === "production";
-const RedisStore = connectRedis.default(session);
+// const RedisStore = connectRedis.default(session);
 const redisClient = new Redis(process.env.REDIS_URL);
+
+const store = new RedisStore({
+  client: redisClient,
+  prefix: "sess:",
+});
 
 const allowedOrigins = isProduction
   ? ["https://reciplanr.onrender.com"]
@@ -38,7 +43,7 @@ app.use(express.json());
 
 app.use(
   session({
-    store: new RedisStore({ client: redisClient }),
+    store: store,
     secret: process.env.SESSION_SECRET || "default-fallback-secret",
     resave: false,
     saveUninitialized: false,
