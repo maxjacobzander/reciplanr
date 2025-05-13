@@ -24,6 +24,7 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+        credentials: "include",
       });
 
       if (!response.ok) {

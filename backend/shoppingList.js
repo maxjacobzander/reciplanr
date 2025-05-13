@@ -10,8 +10,8 @@ import { cleanIngredientName } from "./cleanIngredientName.js";
 
 // create an Object to store the shopping list --> key:value being ingredient:amount
 
-function createShoppingList() {
-  const shoppingList = {};
+function createShoppingList(existingList = {}) {
+  const shoppingList = { ...existingList };
 
   // add amount to the value in the Object
   // find or create ingredient (string)
@@ -79,7 +79,16 @@ function createShoppingList() {
     });
   }
 
-  return { addIngredient, addSingularIngredient, getShoppingListArray };
+  function rawData() {
+    return shoppingList;
+  }
+
+  return {
+    addIngredient,
+    addSingularIngredient,
+    getShoppingListArray,
+    rawData,
+  };
 }
 
 export { createShoppingList };
