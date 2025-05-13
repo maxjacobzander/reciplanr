@@ -6,18 +6,20 @@ import { fetchIngredientsAndParse } from "./fetchIngredientsAndParse.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
-import Redis from "ioredis";
 import { RedisStore } from "connect-redis";
+import { createClient } from "redis";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === "production";
-// const RedisStore = connectRedis.default(session);
-const redisClient = new Redis(process.env.REDIS_URL);
+let redisClient = createClient({ url: process.env.REDIS_URL });
+redisClient.connect().catch(console.error);
 
-const store = new RedisStore({
+// const RedisStore = connectRedis(session);
+
+let store = new RedisStore({
   client: redisClient,
   prefix: "sess:",
 });
