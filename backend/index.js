@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === "production";
-const RedisStore = connectRedis(session);
+const RedisStore = connectRedis.default(session);
 const redisClient = new Redis(process.env.REDIS_URL);
 
 const allowedOrigins = isProduction
