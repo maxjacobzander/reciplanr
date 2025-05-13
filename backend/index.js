@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === "production";
 
-app.use(cors({ origin: "https://reciplanr.onrender.com/", credentials: true }));
+app.use(cors({ origin: "https://reciplanr.onrender.com", credentials: true }));
 app.use(express.json());
 
 app.use(
