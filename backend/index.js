@@ -6,22 +6,47 @@ import { fetchIngredientsAndParse } from "./fetchIngredientsAndParse.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
+import Redis from "ioredis";
+import connectRedis from "connect-redis";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === "production";
+const RedisStore = connectRedis(session);
+const redisClient = new Redis(process.env.REDIS_URL);
 
-app.use(cors({ origin: "https://reciplanr.onrender.com", credentials: true }));
+const allowedOrigins = isProduction
+  ? ["https://reciplanr.onrender.com"]
+  : ["http://localhost:3000"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin.replace(/\/$/, ""))) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 app.use(
   session({
+    store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET || "default-fallback-secret",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: isProduction },
+    saveUninitialized: false,
+    cookie: {
+      secure: isProduction,
+      httpOnly: true,
+      sameSite: "lax",
+    },
   })
 );
 
