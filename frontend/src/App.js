@@ -44,7 +44,7 @@ function App() {
 
         <br />
 
-        <div>
+        <div className="shopping-list-div">
           {shoppingList.length > 0 ? (
             <div className="fade-in">
               <h2 style={{ textAlign: "center" }}>Your Shopping List</h2>

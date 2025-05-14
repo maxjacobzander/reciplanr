@@ -35,8 +35,7 @@ img {
   justify-content: center;
 }
 
-.inputs,
-.shoppingList {
+.inputs {
   flex: 1;
   max-width: 50%;
 }
@@ -86,6 +85,11 @@ h2 {
   margin-top: -2%;
 }
 
+.shopping-list-div {
+  flex: 1;
+  max-width: 50%;
+}
+
 .shoppingList {
   padding: 2%;
   line-height: 2.2;
@@ -130,11 +134,10 @@ div.error {
 @media (max-width: 768px) {
   .reciPlanr {
     flex-direction: column;
-    overflow: none;
   }
 
   .inputs,
-  .shoppingList {
+  .shopping-list-div {
     max-width: 100%;
     max-height: 100%;
   }
