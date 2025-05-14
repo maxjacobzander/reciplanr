@@ -34,7 +34,7 @@ function InputIngredients({ type, label, setShoppingList, placeholder }) {
 
       const data = await response.json();
       console.log("Response data:", data);
-      setShoppingList((prevList) => [...prevList, ...data.shoppingList]);
+      setShoppingList(data.shoppingList);
       setInputValue("");
       setErrorMessage("");
     } catch (error) {
