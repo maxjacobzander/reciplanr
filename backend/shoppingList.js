@@ -29,6 +29,7 @@ function createShoppingList(existingList = {}) {
     console.log("ADDING INGREDIENT:", { amount, unit, name });
 
     if (!shoppingList[name]) {
+      console.log("Hits line 32 in shoppingList.js");
       shoppingList[name] = {
         name,
         quantities: [],
@@ -36,12 +37,21 @@ function createShoppingList(existingList = {}) {
     }
 
     // Check if same unit already exists for this name
+    console.log("checking for existing");
+    console.log(
+      "Current quantities for",
+      name,
+      ":",
+      shoppingList[name].quantities
+    );
     const existing = shoppingList[name].quantities.find(
       (entry) => entry.unit === finalUnit
     );
     if (existing) {
+      console.log("existing:", existing);
       existing.amount += Number(convertedAmount);
     } else {
+      console.log("else line 54");
       shoppingList[name].quantities.push({
         amount: Number(convertedAmount),
         unit: finalUnit,
