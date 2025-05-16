@@ -80,7 +80,7 @@ function createShoppingList(existingList = {}) {
   function getShoppingListArray() {
     return Object.values(shoppingList).map((entry) => {
       const quantitiesString = entry.quantities
-        .map((q) => `${q.amount} ${q.unit}`.trim())
+        .map((q) => (q.unit ? `${q.amount} ${q.unit}` : `${q.amount}`))
         .join(" + ");
 
       return {
