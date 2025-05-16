@@ -11,7 +11,7 @@ import { cleanIngredientName } from "./cleanIngredientName.js";
 // create an Object to store the shopping list --> key:value being ingredient:amount
 
 function createShoppingList(existingList = {}) {
-  const shoppingList = { ...existingList };
+  const shoppingList = JSON.parse(JSON.stringify(existingList));
 
   // add amount to the value in the Object
   // find or create ingredient (string)
