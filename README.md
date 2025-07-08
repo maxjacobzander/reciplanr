@@ -33,6 +33,7 @@ The functionality on the front end is probably:
 
 - Standardizing ingredient lists from various sources
 - Interacting with APIs to add together ingredient amounts
+- One of the big difficulties was getting sessions to persist. This turned out to be a connection issue with my redis instance
 
 ## Future Ideas
 
