@@ -8,6 +8,7 @@ import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
 import { createClient } from "redis";
 import ConnectRedis from "connect-redis";
+import { RedisStore } from "connect-redis";
 
 // const RedisStore = ConnectRedis(session);
 
@@ -20,6 +21,16 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === "production";
+
+const redisClient = createClient({ url: process.env.REDIS_URL });
+redisClient.on("error", (err) => console.error("Redis Client Error", err));
+await redisClient.connect();
+
+const redisStore = new RedisStore({
+  client: redisClient,
+  prefix: "sess:",
+});
+
 // let redisClient = createClient({ url: process.env.REDIS_URL });
 // redisClient.connect().catch(console.error);
 
@@ -32,17 +43,17 @@ const isProduction = process.env.NODE_ENV === "production";
 
 // const RedisStore = ConnectRedis(session);
 
-const redisClient = createClient({
-  url: process.env.REDIS_URL,
-});
-redisClient.on("error", (err) => console.log("Redis Client Error", err));
+// const redisClient = createClient({
+//   url: process.env.REDIS_URL,
+// });
+// redisClient.on("error", (err) => console.log("Redis Client Error", err));
 
-await redisClient.connect();
+// await redisClient.connect();
 
-const redisStore = new ConnectRedis({
-  client: redisClient,
-  prefix: "sess:",
-});
+// const redisStore = new ConnectRedis({
+//   client: redisClient,
+//   prefix: "sess:",
+// });
 
 if (isProduction) {
   app.set("trust proxy", 1);
