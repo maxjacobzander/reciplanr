@@ -6,9 +6,12 @@ import { fetchIngredientsAndParse } from "./fetchIngredientsAndParse.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
-
 import { createClient } from "redis";
-import connectRedis from "connect-redis";
+import ConnectRedis from "connect-redis";
+
+// const RedisStore = ConnectRedis(session);
+
+// import connectRedis from "connect-redis";
 // import { RedisStore } from "connect-redis";
 // import { createClient } from "redis";
 
@@ -27,7 +30,7 @@ const isProduction = process.env.NODE_ENV === "production";
 //   prefix: "sess:",
 // });
 
-const RedisStore = connectRedis(session);
+// const RedisStore = ConnectRedis(session);
 
 const redisClient = createClient({
   url: process.env.REDIS_URL,
@@ -35,6 +38,11 @@ const redisClient = createClient({
 redisClient.on("error", (err) => console.log("Redis Client Error", err));
 
 await redisClient.connect();
+
+const redisStore = new ConnectRedis({
+  client: redisClient,
+  prefix: "sess:",
+});
 
 if (isProduction) {
   app.set("trust proxy", 1);
@@ -61,7 +69,8 @@ app.use(express.json());
 
 app.use(
   session({
-    store: new RedisStore({ client: redisClient, prefix: "sess:" }),
+    // store: new RedisStore({ client: redisClient, prefix: "sess:" }),
+    store: redisStore,
     secret: process.env.SESSION_SECRET || "default-fallback-secret",
     resave: false,
     saveUninitialized: false,
