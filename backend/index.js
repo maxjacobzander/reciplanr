@@ -6,6 +6,9 @@ import { fetchIngredientsAndParse } from "./fetchIngredientsAndParse.js";
 import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
+
+import { createClient } from "redis";
+import connectRedis from "connect-redis";
 // import { RedisStore } from "connect-redis";
 // import { createClient } from "redis";
 
@@ -23,6 +26,19 @@ const isProduction = process.env.NODE_ENV === "production";
 //   client: redisClient,
 //   prefix: "sess:",
 // });
+
+const RedisStore = connectRedis(session);
+
+const redisClient = createClient({
+  url: process.env.REDIS_URL,
+});
+redisClient.on("error", (err) => console.log("Redis Client Error", err));
+
+await redisClient.connect();
+
+if (isProduction) {
+  app.set("trust proxy", 1);
+}
 
 const allowedOrigins = isProduction
   ? ["https://reciplanr.onrender.com"]
@@ -45,7 +61,7 @@ app.use(express.json());
 
 app.use(
   session({
-    // store: store,
+    store: new RedisStore({ client: redisClient, prefix: "sess:" }),
     secret: process.env.SESSION_SECRET || "default-fallback-secret",
     resave: false,
     saveUninitialized: false,
@@ -56,6 +72,12 @@ app.use(
     },
   })
 );
+// Middleware to log session ID and shopping list for debugging
+app.use((req, res, next) => {
+  console.log("Session ID:", req.sessionID);
+  console.log("Shopping List in session:", req.session.shoppingList);
+  next();
+});
 
 // send recipes to be handled by shoppingList.js
 // link input recipes

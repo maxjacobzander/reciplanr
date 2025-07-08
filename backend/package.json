@@ -12,12 +12,12 @@
   "description": "",
   "dependencies": {
     "@rethora/url-recipe-scraper": "git+https://github.com/maxjacobzander/url-recipe-scraper.git#main",
-    "connect-redis": "^8.0.3",
+    "connect-redis": "^8.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
-    "redis": "^5.0.1"
+    "redis": "^5.6.0"
   },
   "type": "module"
 }
