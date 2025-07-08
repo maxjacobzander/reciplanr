@@ -9,19 +9,24 @@ import dotenv from "dotenv";
 import { createClient } from "redis";
 import { RedisStore } from "connect-redis";
 
-// const RedisStore = ConnectRedis(session);
-
-// import connectRedis from "connect-redis";
-// import { RedisStore } from "connect-redis";
-// import { createClient } from "redis";
-
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === "production";
 
-const redisClient = createClient({ url: process.env.REDIS_URL });
+console.log("Envs:", process.env);
+
+console.log("Connecting to Redis at:", process.env.REDIS_URL);
+
+const redisClient = createClient({
+  url: process.env.REDIS_URL,
+  socket: {
+    tls: true,
+    rejectUnauthorized: false,
+  },
+});
+// const redisClient = createClient({ url: process.env.REDIS_URL });
 redisClient.on("error", (err) => console.error("Redis Client Error", err));
 await redisClient.connect();
 
@@ -87,7 +92,7 @@ app.use(
     cookie: {
       secure: isProduction,
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: isProduction ? "none" : "lax", // Session ID is changing in prod — this is to allow cross-origin cookies
     },
   })
 );
