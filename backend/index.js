@@ -7,7 +7,6 @@ import { IGNORE_WORDS } from "./ignoreWords.js";
 import { addToList } from "./addToList.js";
 import dotenv from "dotenv";
 import { createClient } from "redis";
-import ConnectRedis from "connect-redis";
 import { RedisStore } from "connect-redis";
 
 // const RedisStore = ConnectRedis(session);
