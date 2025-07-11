@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import InputIngredients from "./Input.js";
 import ShoppingList from "./ShoppingList.js";
 import { DownloadList } from "./DownloadList.js";
+import clearShoppingList from "./clearShoppingList.js";
 import "./Reciplanr.css";
 import logo from "./img/logo_v1_narrow-removebg.png";
 
@@ -49,12 +50,15 @@ function App() {
             <div className="fade-in">
               <h2 style={{ textAlign: "center" }}>Your Shopping List</h2>
               <ShoppingList shoppingList={shoppingList} />
-              <button
-                type="download"
-                onClick={() => DownloadList(shoppingList)}
-              >
-                Download
-              </button>
+
+              <div id="button-div" style={{ display: "flex", gap: "1rem" }}>
+                <button onClick={() => DownloadList(shoppingList)}>
+                  Download
+                </button>
+                <button onClick={() => clearShoppingList(setShoppingList)}>
+                  Clear List
+                </button>
+              </div>
             </div>
           ) : (
             <div style={{ backgroundColor: "fefae0" }}></div>

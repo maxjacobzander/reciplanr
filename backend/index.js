@@ -26,7 +26,7 @@ const redisClient = createClient({
     rejectUnauthorized: false,
   },
 });
-// const redisClient = createClient({ url: process.env.REDIS_URL });
+
 redisClient.on("error", (err) => console.error("Redis Client Error", err));
 await redisClient.connect();
 
@@ -34,30 +34,6 @@ const redisStore = new RedisStore({
   client: redisClient,
   prefix: "sess:",
 });
-
-// let redisClient = createClient({ url: process.env.REDIS_URL });
-// redisClient.connect().catch(console.error);
-
-// // const RedisStore = connectRedis(session);
-
-// let store = new RedisStore({
-//   client: redisClient,
-//   prefix: "sess:",
-// });
-
-// const RedisStore = ConnectRedis(session);
-
-// const redisClient = createClient({
-//   url: process.env.REDIS_URL,
-// });
-// redisClient.on("error", (err) => console.log("Redis Client Error", err));
-
-// await redisClient.connect();
-
-// const redisStore = new ConnectRedis({
-//   client: redisClient,
-//   prefix: "sess:",
-// });
 
 if (isProduction) {
   app.set("trust proxy", 1);
@@ -84,7 +60,6 @@ app.use(express.json());
 
 app.use(
   session({
-    // store: new RedisStore({ client: redisClient, prefix: "sess:" }),
     store: redisStore,
     secret: process.env.SESSION_SECRET || "default-fallback-secret",
     resave: false,
@@ -179,6 +154,13 @@ app.post("/ingredients", (request, response) => {
     console.error("Error parsing recipe:", error);
     response.status(500).json({ error: "Failed to parse recipe" });
   }
+});
+
+// POST request to clear the shopping list
+app.post("/clear-list", (req, res) => {
+  console.log("Clearing shopping list");
+  req.session.shoppingList = [];
+  res.json({ success: true });
 });
 
 // GET request (app.get) to get the shopping_list
