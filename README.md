@@ -33,7 +33,8 @@ The functionality on the front end is probably:
 
 - Standardizing ingredient lists from various sources
 - Interacting with APIs to add together ingredient amounts
-- One of the big difficulties was getting sessions to persist. This turned out to be a connection issue with my redis instance
+
+* One of the big difficulties was getting sessions to persist. This turned out to be a connection issue with my redis instance
 
 ## Future Ideas
 
@@ -41,4 +42,4 @@ The functionality on the front end is probably:
 - Toggle for metric/imperial?
 - For v2, add function to convert ingredient lines to more structured format
 - Add functionality to remove ingredients from shopping list
-- Add functionality to clear shopping list
+  ✓ Add functionality to clear shopping list
