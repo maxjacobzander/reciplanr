@@ -5,9 +5,11 @@ import { DownloadList } from "./DownloadList.js";
 import clearShoppingList from "./clearShoppingList.js";
 import "./Reciplanr.css";
 import logo from "./img/logo_v1_narrow-removebg.png";
+import InitialModal from "./Modal";
 
 function App() {
   const [shoppingList, setShoppingList] = useState([]);
+  const [showInitialModal, setShowInitialModal] = useState(true);
 
   // reset list when page is first loaded
   useEffect(() => {
@@ -18,6 +20,10 @@ function App() {
 
   return (
     <div className="App">
+      <InitialModal
+        show={showInitialModal}
+        onClose={() => setShowInitialModal(false)}
+      />
       <div className="logo">
         <img src={logo} alt="ReciPlanr" />
       </div>
