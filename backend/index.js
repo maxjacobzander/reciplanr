@@ -68,6 +68,7 @@ app.use(
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "none" : "lax", // Session ID is changing in prod — this is to allow cross-origin cookies
+      maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
